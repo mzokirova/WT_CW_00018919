@@ -1,20 +1,25 @@
 doctype html
 html
   head
-    title Book List
-    link(rel="stylesheet" href="/styles/style.css")
+    title Book Review App
+    link(rel="stylesheet", href="/styles/style.css")
+    script(src="/js/main.js")
   body
-    h1 Book List
     .container
-      each book in books
-        .card
-          h2= book.title
-          p Author: #{book.author}
-          p Genre: #{book.genre}
-          p Published: #{book.published}
-          .buttons
-            a(href=`/addReview/${book.id}` class="btn") Add review
-            a(href=`/reviews/${book.id}` class="btn") Read reviews
-            form(action=`/deleteBook/${book.id}` method="POST" style="display:inline;")
-              button(type="submit" class="btn delete") Delete
-    a(href="/newBook" class="btn add-book") Add new book
+      h1 Book List
+      .book-list
+        each book in books
+          .book-card
+            h2= book.title
+            p Author: #{book.author}
+            p Genre: #{book.genre}
+            p Published: #{book.year}
+            p Pages: #{book.pages}
+            .buttons
+              button.btn.btn-primary Add Review
+              button.btn.btn-success Read Reviews
+              form.inline-form(action=`/deleteBook/${book.id}` method="post" onsubmit="return confirm('Are you sure?')") 
+                button(data-id=`${book.id}` class="btn btn-danger") Delete
+
+      a(href="/newBook" class="btn btn-success") Add New Book
+

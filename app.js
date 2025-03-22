@@ -10,13 +10,21 @@ const REVIEWS_FILE = './reviews.json';
 app.use(express.urlencoded({ extended: true })); // Parse form data
 app.use(express.json()); // Parse JSON data
 app.use(express.static("public"));
-app.set('view engine', 'pug'); // Set view engine
+app.use('/styles', express.static(path.join(__dirname, 'public/styles')));
+app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 // Helper functions
-const readData = () => JSON.parse(fs.readFileSync(DATA_FILE));
-const writeData = (data) => fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
-
+const readData = () => {
+    try{
+        return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
+    }catch (error){
+        return[];
+    }
+};
+const writeData = (data) => {
+    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+}
 const readReviews = () => {
     try {
         if (!fs.existsSync('./reviews.json')) {
@@ -41,7 +49,7 @@ app.get('/homepage', (req, res) => {
 });
 // 📌 Add new book
 app.get('/newBook', (req, res) => {
-    res.render('newBook');
+    res.render('newBook', { layout: false });
 });
 
 app.post('/newBook', (req, res) => {
@@ -70,13 +78,22 @@ app.post('/editBook/:id', (req, res) => {
     res.redirect('/');
 });
 
-// 📌 Delete book
-app.post('/deleteBook/:id', (req, res) => {
-    let books = readData();
-    books = books.filter(b => b.id != req.params.id);
-    writeData(books);
-    res.redirect('/');
+app.delete('/deleteBook/:id', async (req, res) => {
+    try {
+        const bookId = req.params.id;
+        const result = await Book.findByIdAndDelete(bookId);
+
+        if (!result) {
+            return res.status(404).send('Book not found');
+        }
+
+        res.status(200).send('Book deleted successfully');
+    } catch (error) {
+        console.error('Error deleting book:', error);
+        res.status(500).send('Error deleting book');
+    }
 });
+
 
 // 📌 Add review
 app.get('/addReview/:bookId', (req, res) => {
@@ -106,4 +123,4 @@ app.post('/deleteReview/:id', (req, res) => {
 });
 
 // Start server
-app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+app.listen(3001, () => console.log('Server running on http://localhost:3001'));
