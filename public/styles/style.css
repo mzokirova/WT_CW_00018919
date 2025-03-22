@@ -1,0 +1,21 @@
+/* General Styles */
+body {
+    font-family: 'Merriweather', serif; /* Elegant book-style font */
+    background: linear-gradient(to bottom, #f3e7d9, #d8bba3); /* Warm paper-like gradient */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  /* Description Paragraph */
+  p.descriptcw {
+    font-size: 20px;
+    font-weight: bold;
+    color: #5a3e2b; /* Darker brown, like classic book fonts */
+    text-align: center;
+    padding: 10px;
+    line-height: 1.6;
+  }

@@ -1,0 +1,12 @@
+doctype html
+html
+  head
+    title Book Reviews
+  body
+    h1 Reviews
+    each review in reviews
+      div
+        p Rating: #{review.rate}
+        p Message: #{review.message}
+        form(action='/reviews/' + review.id method='POST')
+          button(type='submit') Delete Review

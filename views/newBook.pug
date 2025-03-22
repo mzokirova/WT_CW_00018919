@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    title Add New Book
+  body
+    h1 Add a New Book
+    form(action='/newBook' method='POST')
+      label Name:
+      input(type='text' name='name' required)
+      label Author:
+      input(type='text' name='author' required)
+      label Genre:
+      input(type='text' name='genre' required)
+      label Published Year:
+      input(type='number' name='publishedYear' required)
+      label Picture URL:
+      input(type='text' name='picture' required)
+      button(type='submit') Add Book

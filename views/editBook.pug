@@ -1,0 +1,20 @@
+doctype html
+html
+  head
+    title Edit Book
+  body
+    h1 Edit Book
+    form(action='/editBook/' + book.id method='POST')
+      label Name:
+      input(type='text' name='name' value=book.name required)
+      label Author:
+      input(type='text' name='author' value=book.author required)
+      label Genre:
+      input(type='text' name='genre' value=book.genre required)
+      label Published Year:
+      input(type='number' name='publishedYear' value=book.publishedYear required)
+      label Picture URL:
+      input(type='text' name='picture' value=book.picture required)
+      button(type='submit') Save Changes
+      if error
+        p.error #{error}
