@@ -60,22 +60,22 @@ app.post('/newBook', (req, res) => {
     res.redirect('/homepage');
 });
 
-// 📌 Edit Book
-app.get('/editBook/:id', (req, res) => {
-    const books = readData();
-    const book = books.find(b => b.id == req.params.id);
-    if (!book) return res.status(404).send('Book not found');
-    res.render('editBook', { book });
+// 📌 Edit Review
+app.get('/editReview/:id', (req, res) => {
+    const reviews = readReviews();
+    const review = reviews.find(r => r.id == req.params.id);
+    if (!review) return res.status(404).send('Review not found');
+    res.render('editReview', { review });
 });
 
-app.post('/editBook/:id', (req, res) => {
-    const books = readData();
-    const bookIndex = books.findIndex(b => b.id == req.params.id);
-    if (bookIndex === -1) return res.status(404).send('Book not found');
+app.post('/editReview/:id', (req, res) => {
+    const reviews = readReviews();
+    const reviewIndex = reviews.findIndex(r => r.id == req.params.id);
+    if (reviewIndex === -1) return res.status(404).send('Review not found');
     
-    books[bookIndex] = { ...books[bookIndex], ...req.body };
-    writeData(books);
-    res.redirect('/');
+    reviews[reviewIndex] = { ...reviews[reviewIndex], ...req.body };
+    writeReviews(reviews);
+    res.redirect('/reviews' + reviews[reviewIndex].bookId);
 });
 
 app.delete('/deleteBook/:id', async (req, res) => {
@@ -100,6 +100,7 @@ app.get('/addReview/:bookId', (req, res) => {
     if (!req.params.bookId) {
         return res.status(400).send("Invalid book ID");
     }
+    console.log("Opening Review Form for Book ID:", req.params.bookId);
     res.render('addReview', { bookId: req.params.bookId, layout: false });
 });
 

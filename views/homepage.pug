@@ -17,9 +17,9 @@ html
             p Pages: #{book.pages}
             .buttons
               a.btn.btn-primary(href=`/addReview/${book.id}`) Add Review
-              button.btn.btn-success Read Reviews
+              a.btn.btn-success(href=`/reviews/${book.id}`) Read Reviews
               form.inline-form(action=`/deleteBook/${book.id}` method="post" onsubmit="return confirm('Are you sure?')") 
-                button(data-id=`${book.id}` class="btn btn-danger") Delete
+              button.btn.btn-danger(data-id=`${book.id}`) Delete
 
       a(href="/newBook" class="btn btn-success") Add New Book
 

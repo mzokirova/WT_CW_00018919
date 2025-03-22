@@ -6,10 +6,17 @@ html
   body
     .container
       h1 Reviews for this Book
-      each review in reviews
-        .review-card
-          p ⭐ Rating: #{review.rate} / 5
-          p 📝 #{review.message}
-          form(action="/deleteReview/#{review.id}" method="post")
-            button.btn.btn-danger(type="submit") Delete Review
+      if reviews.length > 0
+        each review in reviews
+          .review-card
+            .review-content
+              p ⭐ Rating: #{review.rate} / 5
+              p 📝 #{review.message}
+            form(action="/deleteReview/#{review.id}" method="post")
+                input(type="hidden" name="bookId" value="#{bookId}")
+                button.btn.btn-danger(id="deleterev" type="submit") Delete Review
+            a.btn.btn-warning(id="editrev" href="/editReview/${review.id}") Edit Review
+      else 
+        p No reviews yet for this book.
+      a.btn.btn-primary(href="/addReview/${bookId}") Add a Review
       a.btn.btn-secondary(href="/homepage") Back to Homepage

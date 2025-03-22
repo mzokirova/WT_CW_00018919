@@ -1,0 +1,16 @@
+doctype html
+html
+  head
+    title Edit Review
+    link(rel="stylesheet", href="/styles/style.css")
+  body
+    .container
+      h1 Edit Book
+      form(action='/editReview/#{review.id}' method='POST')
+        label(for="rate") Rating:
+        input(type='number' name='rate' min="1" max="5" value="#{review.rate}" required)
+
+        label(for='message') Message:
+        textarea(name="message")#{review.message} 
+        button.btn.btn-success(type="submit") Save Changes
+      a.btn.btn-danger(href="/reviews") Cancel
