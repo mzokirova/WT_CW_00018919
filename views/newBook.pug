@@ -6,7 +6,7 @@ html
   body
     .new-book-page 
       h1 Add a New Book
-      form(action="/newBook" method="post" onsubmit="window.location.href='/homepage'; return false;")
+      form(action="/newBook" method="post")
         input(type="text" name="title" placeholder="Book Title" required)
         input(type="text" name="author" placeholder="Author" required)
         input(type="text" name="genre" placeholder="Genre" required)

@@ -2,12 +2,15 @@ doctype html
 html
   head
     title Add Review
+    link(rel="stylesheet", href="/styles/style.css")
   body
-    h1 Add Review
-    form(action='/reviews' method='POST')
-      input(type='hidden' name='bookId' value=bookId)
-      label Rate:
-      input(type='number' name='rate' min='1' max='5' required)
-      label Review:
-      textarea(name='message' required)
-      button(type='submit') Submit Review
+    .container
+      h1 Add Review
+      form(action="/reviews" method="POST")
+        input(type="hidden" name="bookId" value=bookId) // Ensures correct book ID is submitted
+        label Rate:
+        input(type="number" name="rate" min="1" max="5" required)
+        label Review:
+        textarea(name="message" required)
+        button.btn.btn-success(type="submit") Submit Review
+      a.btn.btn-secondary(href="/homepage") Back to Homepage

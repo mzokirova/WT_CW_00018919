@@ -57,7 +57,7 @@ app.post('/newBook', (req, res) => {
     const newBook = { id: Date.now(), ...req.body };
     books.push(newBook);
     writeData(books);
-    res.redirect('/');
+    res.redirect('/homepage');
 });
 
 // 📌 Edit Book
@@ -97,15 +97,23 @@ app.delete('/deleteBook/:id', async (req, res) => {
 
 // 📌 Add review
 app.get('/addReview/:bookId', (req, res) => {
-    res.render('addReview', { bookId: req.params.bookId });
+    if (!req.params.bookId) {
+        return res.status(400).send("Invalid book ID");
+    }
+    res.render('addReview', { bookId: req.params.bookId, layout: false });
 });
 
-app.post('/reviews', (req, res) => {
+app.post("/reviews", (req, res) => {
     const reviews = readReviews();
-    const newReview = { id: Date.now(), ...req.body };
+    const newReview = {
+        id: Date.now(),
+        bookId: req.body.bookId.toString(), // Convert book ID to string for consistency
+        rate: req.body.rate,
+        message: req.body.message
+    };
     reviews.push(newReview);
     writeReviews(reviews);
-    res.redirect('/reviews/' + req.body.bookId);
+    res.redirect("/reviews/" + req.body.bookId); // Redirect to the correct book's reviews
 });
 
 // 📌 Read reviews
