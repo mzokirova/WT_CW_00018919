@@ -101,8 +101,18 @@ h1 {
   background: #2ecc71; 
   color: white; 
   border: none;
-  padding: 7px;
+  margin-top: 10px;
+  padding: 10px 15px;
   border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.3s ease;
+}
+.btn-secondary:hover{
+  background: #27ae60;
+  text-decoration: none;
 }
 .btn-danger { 
   background: #e74c3c; 
@@ -182,4 +192,32 @@ h1 {
 }
 .buttons a{
   text-decoration: none;
+}
+.review-box{
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  max-width: 450px;
+  width: 100%;
+}
+form{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+label{
+  font-weight: bold;
+}
+input, textarea{
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+textarea{
+  resize: vertical;
+  height: 100px;
 }

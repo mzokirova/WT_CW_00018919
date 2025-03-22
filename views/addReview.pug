@@ -4,13 +4,13 @@ html
     title Add Review
     link(rel="stylesheet", href="/styles/style.css")
   body
-    .container
+    .review-box
       h1 Add Review
       form(action="/reviews" method="POST")
-        input(type="hidden" name="bookId" value=bookId) // Ensures correct book ID is submitted
-        label Rate:
-        input(type="number" name="rate" min="1" max="5" required)
-        label Review:
-        textarea(name="message" required)
+        input.book-id(type="hidden" name="bookId" value=bookId)
+        label.rate-label(for="rate") Rate:
+        input.rate-input(id="rate" type="number" name="rate" min="1" max="5" required)
+        label.message-label(for="message") Review:
+        textarea.submit-btn(id="message" name="message" required)
         button.btn.btn-success(type="submit") Submit Review
       a.btn.btn-secondary(href="/homepage") Back to Homepage
