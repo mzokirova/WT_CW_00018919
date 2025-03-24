@@ -306,13 +306,15 @@ textarea{
 }
 
 /* Form */
-#edit-book-form {
+#bookForm {
   display: flex;
   flex-direction: column;
 }
-#edit-book-form a.btn.btn-secondary{
+#bookForm a.btn.btn-secondary{
   text-align: center;
   font-weight: 800;
+  margin-left: 20px;
+  padding: 12px;
 }
 /* Form Groups */
 .form-group {

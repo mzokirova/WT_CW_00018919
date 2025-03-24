@@ -3,9 +3,9 @@
     "id": 1742647149453,
     "title": "1934",
     "author": "George Ourel",
-    "genre": "Classic",
-    "year": "1893",
-    "pages": "548",
+    "genre": "classic",
+    "year": "2001",
+    "pages": "372",
     "published": "1892"
   },
   {
@@ -33,5 +33,13 @@
     "year": "2011",
     "pages": "656",
     "published": "undefined"
+  },
+  {
+    "id": 1742838137855,
+    "title": "Qo'rqma",
+    "author": "Javlon Jovliyev",
+    "genre": "Historic dramatic",
+    "year": "2020",
+    "pages": "376"
   }
 ]

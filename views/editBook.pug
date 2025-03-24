@@ -5,10 +5,11 @@ html(lang="en")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     title Edit Book
     link(rel="stylesheet", href="/styles/style.css")
+    script(src="/services/alidation.js" defer)
   body
     .container
       h1#edit-book-title Edit Book
-      form#edit-book-form(action=`/updateBook/${book.id}` method="POST")
+      form#bookForm(action=`/updateBook/${book.id}` method="POST")
         
         div.form-group
           label(for="book-title") Title:
@@ -23,8 +24,14 @@ html(lang="en")
           input#book-genre(type="text" name="genre" value=`${book.genre}` required)
 
         div.form-group
+          label(for="year") Published Year:
+          input#year(type="number" name="year" value=`${book.year}` required min="1000" max="2099")
+          small#yearError(style="color: red; display: none;") Year must be between 1000 and 2099
+
+        div.form-group
           label(for="book-pages") Pages:
-          input#book-pages(type="number" name="pages" value=`${book.pages}` required)
+          input#pages(type="number" name="pages" value=`${book.pages}` required min="1")
+          small#pagesError(style="color: red; display: none;") Pages must be at least 1
 
         button#update-book-btn(type="submit") Update Book
         a.btn.btn-secondary(href="/homepage") Back to Homepage
