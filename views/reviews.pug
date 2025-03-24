@@ -3,19 +3,19 @@ html
   head
     title Book Reviews
     link(rel="stylesheet", href="/styles/style.css")
+    script(src="/javascripts/main.js" defer)
   body
     .container
       h1 Reviews for this Book
       if reviews.length > 0
         each review in reviews
-          .review-card
+          .review-card(data-id=`${review.id}`)
             .review-content
               p ⭐ Rating: #{review.rate} / 5
               p.message_rev 📝 #{review.message}
-            form(action="/deleteReview/#{review.id}" method="post")
-                input(type="hidden" name="bookId" value="#{bookId}")
-                button.btn.btn-danger(id="deleterev" type="submit" data-id=`${review.id}`) Delete Review
-            a.btn.btn-warning(id="editrev" href=`/editReview/${review.id}`) Edit Review
+            .review-actions
+              button.btn.btn-danger.delete-review(data-id=`${review.id}` data-book-id=`${bookId}`) Delete Review
+              a.btn.btn-warning(href=`/editReview/${review.id}`) Edit Review
       else 
         p No reviews yet for this book.
       a.btn.btn-primary(href=`/addReview/${bookId}`) Add a Review

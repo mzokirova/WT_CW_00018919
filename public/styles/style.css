@@ -240,6 +240,21 @@ h1 {
   margin: 10px 0;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+.review-actions a.btn.btn-warning{
+  width: 100px;
+  height: 40px;
+  margin-right: 10px;
+  background: #29e93f; 
+  color: white; 
+  border: none; 
+  cursor: pointer; 
+  border-radius: 8px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .review-content{
   display: flex;
   flex-direction: column;
@@ -249,13 +264,19 @@ h1 {
 .message_rev{
   max-width: 80%;
 }
-
-#deleterev{
+.review-actions{
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin: auto;
+}
+.delete-review{
   width: 100px;
   height: 40px;
   margin-right: 10px;
+  font-weight: 500;
 }
-#deleterev:hover{
+.delete-review:hover{
   background: black;
 }
 form{

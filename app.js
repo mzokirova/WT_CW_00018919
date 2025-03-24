@@ -102,7 +102,17 @@ app.post('/newBook', (req, res) => {
     writeData(books);
     res.redirect('/homepage');
 });
+app.post("/deleteBook/:id", (req, res) => {
+    const books = readData();
+    const updatedBooks = books.filter(book => book.id.toString() !== req.params.id);
 
+    if (books.length === updatedBooks.length) {
+        return res.status(404).send("Book not found");
+    }
+
+    writeData(updatedBooks);
+    res.redirect("/homepage");
+});
 // Add review
 app.get('/addReview/:bookId', (req, res) => {
     if (!req.params.bookId) {
@@ -149,18 +159,14 @@ app.get('/reviews/:bookId', (req, res) => {
     res.render('reviews', { reviews, bookId: req.params.bookId });
 });
 
-//  Delete review
-app.post('/deleteReview/:id', (req, res) => {
-    let reviews = readReviews();
-    const updatedReviews = reviews.filter(r => r.id !== req.params.id);
+app.post("/deleteReview/:id", (req, res) => {
+    const reviews = readReviews();
+    const newReviews = reviews.filter(r => r.id.toString() !== req.params.id);
+    writeReviews(newReviews);
 
-    if (reviews.length === updatedReviews.length) {
-        return res.status(404).json({ message: "Review not found" });
-    }
-
-    writeReviews(updatedReviews);
-    res.json({ success: true, message: "Review deleted successfully" });
+    res.status(200).json({ success: true }); // Send success response for frontend to handle
 });
+
 
 // Start server
 app.listen(3001, () => console.log('Server running on http://localhost:3001'));

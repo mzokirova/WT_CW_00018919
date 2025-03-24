@@ -1,41 +1,43 @@
 document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".delete-book").forEach(button => {
-        button.addEventListener("click", function () {
-            const bookId = this.getAttribute("data-id");
-
+    document.querySelectorAll(".inline-form").forEach(form => {
+        form.addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent default form submission
             if (confirm("Are you sure you want to delete this book?")) {
-                fetch(`/deleteBook/${bookId}`, {
-                    method: "POST",
-                })
-                .then(() => location.reload()) // Reload page after deletion
-                .catch(error => console.error("Error:", error));
+                fetch(this.action, { method: "POST" }) // Use form's action URL
+                    .then(response => {
+                        if (response.ok) {
+                            location.reload(); // Reload page after deletion
+                        } else {
+                            return response.text().then(text => { throw new Error(text); });
+                        }
+                    })
+                    .catch(error => console.error("Error:", error));
             }
         });
     });
 });
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".delete-review").forEach(button => {
-        button.addEventListener("click", function () {
-            const reviewId = this.getAttribute("data-id");
-            const bookId = this.getAttribute("data-book-id"); // Get book ID for redirecting
+        button.addEventListener("click", async function (event) {
+            event.preventDefault();
 
-            if (confirm("Are you sure you want to delete this review?")) {
-                fetch(`/deleteReview/${reviewId}`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ bookId })
-                })
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    }
-                    throw new Error("Failed to delete review");
-                })
-                .then(() => location.reload()) // Reload page to reflect changes
-                .catch(error => console.error("Error:", error));
+            const reviewId = this.getAttribute("data-id");
+            const bookId = this.getAttribute("data-book-id");
+
+            const response = await fetch(`/deleteReview/${reviewId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: new URLSearchParams({ bookId })
+            });
+
+            if (response.ok) {
+                // Remove the deleted review from the DOM without refreshing
+                document.querySelector(`.review-card[data-id="${reviewId}"]`).remove();
+            } else {
+                alert("Failed to delete the review. Please try again.");
             }
         });
     });
