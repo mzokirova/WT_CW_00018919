@@ -45,7 +45,7 @@ const readReviews = () => {
         return [];
     }
 };
-const writeReviews = (data) => fs.writeFileSync(REVIEWS_FILE, JSON.stringify(data, null, 2));
+const writeReviews = (data) => fs.writeFileSync(REVIEWS_FILE, JSON.stringify(data, null, 2), 'utf8');
     
 
 //  Homepage
@@ -103,31 +103,6 @@ app.post('/newBook', (req, res) => {
     res.redirect('/homepage');
 });
 
-// Edit Review
-app.get('/editReview/:id', (req, res) => {
-    const reviews = readReviews();
-    const review = reviews.find(r => r.id.toString() === req.params.id);
-    if (!review) {
-        return res.status(404).send('Review not found');
-    }
-    res.render('editReview', { review });
-});
-
-app.post('/editReview/:id', (req, res) => {
-    const reviews = readReviews();
-    const reviewIndex = reviews.findIndex(r => r.id == req.params.id);
-    if (reviewIndex === -1) return res.status(404).send('Review not found');
-    
-    reviews[reviewIndex] = { ...reviews[reviewIndex], ...req.body };
-    writeReviews(reviews);
-    res.redirect('/reviews/' + reviews[reviewIndex].bookId);
-});
-app.post("/deleteBook/:id", (req, res) => {
-    let books = readData();
-    books = books.filter(book => book.id.toString() !== req.params.id); 
-    writeData(books);
-    res.redirect('/homepage'); 
-})
 // Add review
 app.get('/addReview/:bookId', (req, res) => {
     if (!req.params.bookId) {
@@ -149,7 +124,25 @@ app.post("/reviews", (req, res) => {
     writeReviews(reviews);
     res.redirect("/reviews/" + req.body.bookId); // Redirect to the correct book's reviews
 });
+app.get('/editReview/:id', (req, res) => {
+    const reviews = readReviews();
+    const review = reviews.find(r => r.id.toString() === req.params.id);
+    if (!review) return res.status(404).send('Review not found');
+    res.render('editReview', { review });
+});
 
+app.post('/editReview/:id', (req, res) => {
+    const reviews = readReviews();
+    const reviewIndex = reviews.findIndex(r => r.id.toString() === req.params.id);
+    if (reviewIndex === -1) return res.status(404).send('Review not found');
+
+    const bookId = reviews[reviewIndex].bookId;
+
+    reviews[reviewIndex] = { ...reviews[reviewIndex], ...req.body };
+    writeReviews(reviews);
+
+     res.redirect(`/reviews/${bookId}`);
+});
 //  Read reviews
 app.get('/reviews/:bookId', (req, res) => {
     const reviews = readReviews().filter(r => r.bookId == req.params.bookId);
@@ -159,9 +152,14 @@ app.get('/reviews/:bookId', (req, res) => {
 //  Delete review
 app.post('/deleteReview/:id', (req, res) => {
     let reviews = readReviews();
-    reviews = reviews.filter(r => r.id != req.params.id);
-    writeReviews(reviews);
-    res.redirect('back');
+    const updatedReviews = reviews.filter(r => r.id !== req.params.id);
+
+    if (reviews.length === updatedReviews.length) {
+        return res.status(404).json({ message: "Review not found" });
+    }
+
+    writeReviews(updatedReviews);
+    res.json({ success: true, message: "Review deleted successfully" });
 });
 
 // Start server

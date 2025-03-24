@@ -245,6 +245,11 @@ h1 {
   flex-direction: column;
   gap: 5px;
 }
+
+.message_rev{
+  max-width: 80%;
+}
+
 #deleterev{
   width: 100px;
   height: 40px;
@@ -321,7 +326,41 @@ input {
   font-size: 16px;
   font-weight: bold;
 }
-
+.edit_review{
+  position: relative;
+}
 #update-book-btn:hover {
   background: #0cab3c;
+}
+.edit_review textarea{
+  margin-bottom: 20px;
+}
+.edit_review a.btn.btn-secondary{
+  display: flex;
+  justify-content: center;
+}
+.edit_review button.btn.btn-success{
+  width: 87%;
+  height: 35px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+}
+#cancel_editrev{
+  width: 86%;
+  height: 25px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  text-align: center;
+  text-decoration: none;
+}
+.container2 {
+  width: 60%;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
