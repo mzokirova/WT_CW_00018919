@@ -89,6 +89,7 @@ h1 {
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 10px;
+  justify-content: center;
 }
 .book-card .buttons a.btn{
   width: 100px;
@@ -157,6 +158,9 @@ h1 {
 }
 .inline-form { 
   display: inline; 
+}
+.inline-form button.btn-danger{
+  width: 100px;
 }
 
 /*--------Add new book--------*/

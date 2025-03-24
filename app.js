@@ -11,7 +11,7 @@ const REVIEWS_FILE = './reviews.json';
 app.use(express.urlencoded({ extended: true })); // Parse form data
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json()); // Parse JSON data
-app.use(express.static("public"));
+app.use(express.static('public'));
 app.use('/styles', express.static(path.join(__dirname, 'public/styles')));
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
@@ -48,7 +48,7 @@ const readReviews = () => {
 const writeReviews = (data) => fs.writeFileSync(REVIEWS_FILE, JSON.stringify(data, null, 2));
     
 
-// 📌 Homepage
+//  Homepage
 app.get('/', (req, res) => {
     res.render('index');
 });
@@ -103,7 +103,7 @@ app.post('/newBook', (req, res) => {
     res.redirect('/homepage');
 });
 
-// 📌 Edit Review
+// Edit Review
 app.get('/editReview/:id', (req, res) => {
     const reviews = readReviews();
     const review = reviews.find(r => r.id.toString() === req.params.id);
@@ -122,16 +122,13 @@ app.post('/editReview/:id', (req, res) => {
     writeReviews(reviews);
     res.redirect('/reviews/' + reviews[reviewIndex].bookId);
 });
-
-app.delete('/deleteBook/:id', (req, res) => {
+app.post("/deleteBook/:id", (req, res) => {
     let books = readData();
-    books = books.filter(book => book.id.toString() !== req.params.id);
+    books = books.filter(book => book.id.toString() !== req.params.id); 
     writeData(books);
-    res.status(200).send('Book deleted successfully');
-});
-
-
-// 📌 Add review
+    res.redirect('/homepage'); 
+})
+// Add review
 app.get('/addReview/:bookId', (req, res) => {
     if (!req.params.bookId) {
         return res.status(400).send("Invalid book ID");
@@ -153,13 +150,13 @@ app.post("/reviews", (req, res) => {
     res.redirect("/reviews/" + req.body.bookId); // Redirect to the correct book's reviews
 });
 
-// 📌 Read reviews
+//  Read reviews
 app.get('/reviews/:bookId', (req, res) => {
     const reviews = readReviews().filter(r => r.bookId == req.params.bookId);
     res.render('reviews', { reviews, bookId: req.params.bookId });
 });
 
-// 📌 Delete review
+//  Delete review
 app.post('/deleteReview/:id', (req, res) => {
     let reviews = readReviews();
     reviews = reviews.filter(r => r.id != req.params.id);
