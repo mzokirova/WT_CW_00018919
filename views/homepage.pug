@@ -19,7 +19,9 @@ html
               a.btn.btn-primary(href=`/addReview/${book.id}`) Add Review
               a.btn.btn-success(href=`/reviews/${book.id}`) Read Reviews
               form.inline-form(action=`/deleteBook/${book.id}` method="post" onsubmit="return confirm('Are you sure?')") 
+              a.btn.btn-secondary(href=`/editBook/${book.id}`) Edit Book
               button.btn.btn-danger(data-id=`${book.id}`) Delete
+             
 
       a(href="/newBook" class="btn btn-success") Add New Book
 

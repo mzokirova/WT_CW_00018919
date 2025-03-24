@@ -1,19 +1,21 @@
 [
   {
     "id": 1742647149453,
-    "title": "1983",
+    "title": "1934",
     "author": "George Ourell",
     "genre": "Classic",
     "year": "1893",
-    "pages": "548"
+    "pages": "548",
+    "published": "1983"
   },
   {
     "id": 1742650752259,
     "title": "1984",
     "author": "Johnny Adisson",
-    "genre": "Drama",
+    "genre": "Dramatical",
     "year": "2013",
-    "pages": "248"
+    "pages": "248",
+    "published": "undefined"
   },
   {
     "id": 1742667860194,
@@ -29,6 +31,7 @@
     "author": "Walter Isaacson",
     "genre": "Biography",
     "year": "2011",
-    "pages": "656"
+    "pages": "656",
+    "published": "undefined"
   }
 ]

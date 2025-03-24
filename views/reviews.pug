@@ -15,7 +15,7 @@ html
             form(action="/deleteReview/#{review.id}" method="post")
                 input(type="hidden" name="bookId" value="#{bookId}")
                 button.btn.btn-danger(id="deleterev" type="submit") Delete Review
-            a.btn.btn-warning(id="editrev" href="/editReview/${review.id}") Edit Review
+            a.btn.btn-warning(id="editrev" href="/editReview/#{review.id}") Edit Review
       else 
         p No reviews yet for this book.
       a.btn.btn-primary(href="/addReview/${bookId}") Add a Review

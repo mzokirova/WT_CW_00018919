@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
 
@@ -8,6 +9,7 @@ const REVIEWS_FILE = './reviews.json';
 
 // Middleware
 app.use(express.urlencoded({ extended: true })); // Parse form data
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json()); // Parse JSON data
 app.use(express.static("public"));
 app.use('/styles', express.static(path.join(__dirname, 'public/styles')));
@@ -17,20 +19,26 @@ app.set('views', path.join(__dirname, 'views'));
 // Helper functions
 const readData = () => {
     try{
+        if(!fs.existsSync(DATA_FILE)) fs.writeFileSync(DATA_FILE, JSON.stringify([]));
         return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
     }catch (error){
+        console.error("Error reading data.json:", error);
         return[];
     }
 };
 const writeData = (data) => {
-    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+    try {
+        fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+    } catch (error) {
+        console.error("Error writing data.json:", error);
+    }
 }
 const readReviews = () => {
     try {
-        if (!fs.existsSync('./reviews.json')) {
-            fs.writeFileSync('./reviews.json', JSON.stringify([])); // Create an empty array
+        if (!fs.existsSync(REVIEWS_FILE)) {
+            fs.writeFileSync(REVIEWS_FILE, JSON.stringify([])); // Create an empty array
         }
-        const data = fs.readFileSync('./reviews.json');
+        const data = fs.readFileSync(REVIEWS_FILE, 'utf8');
         return JSON.parse(data);
     } catch (error) {
         console.error('Error reading reviews.json:', error);
@@ -38,6 +46,7 @@ const readReviews = () => {
     }
 };
 const writeReviews = (data) => fs.writeFileSync(REVIEWS_FILE, JSON.stringify(data, null, 2));
+    
 
 // 📌 Homepage
 app.get('/', (req, res) => {
@@ -46,6 +55,40 @@ app.get('/', (req, res) => {
 app.get('/homepage', (req, res) => {
     const books = readData();
     res.render('homepage', {books});
+});
+
+app.get('/editBook/:id',(req, res) =>{
+    const books = readData();
+    const book = books.find(b => b.id.toString() === req.params.id);
+    if(!book) 
+        {
+            return res.status(404).send('Book not found');
+        }
+    res.render('editBook', {book});
+});
+
+app.post('/editBook/:id', (req, res) => {
+    const books = readData();
+    const bookIndex = books.findIndex(b => b.id.toString() === req.params.id);
+
+    if(bookIndex === -1) return res.status(404).send('Book not found');
+
+    books[bookIndex] = { ...books[bookIndex], ...req.body};
+    writeData(books);
+
+    res.redirect('homepage');
+})
+
+app.post("/updateBook/:id", (req, res) => {
+    const books = readData();
+    const bookIndex = books.findIndex(b => b.id.toString() === req.params.id);
+
+    if(bookIndex === -1) return res.status(404).send("Book not found");
+
+    books[bookIndex] = { ...books[bookIndex], ...req.body};
+    writeData(books);
+
+    res.redirect("/homepage");
 });
 // 📌 Add new book
 app.get('/newBook', (req, res) => {
@@ -63,8 +106,10 @@ app.post('/newBook', (req, res) => {
 // 📌 Edit Review
 app.get('/editReview/:id', (req, res) => {
     const reviews = readReviews();
-    const review = reviews.find(r => r.id == req.params.id);
-    if (!review) return res.status(404).send('Review not found');
+    const review = reviews.find(r => r.id.toString() === req.params.id);
+    if (!review) {
+        return res.status(404).send('Review not found');
+    }
     res.render('editReview', { review });
 });
 
@@ -75,23 +120,14 @@ app.post('/editReview/:id', (req, res) => {
     
     reviews[reviewIndex] = { ...reviews[reviewIndex], ...req.body };
     writeReviews(reviews);
-    res.redirect('/reviews' + reviews[reviewIndex].bookId);
+    res.redirect('/reviews/' + reviews[reviewIndex].bookId);
 });
 
-app.delete('/deleteBook/:id', async (req, res) => {
-    try {
-        const bookId = req.params.id;
-        const result = await Book.findByIdAndDelete(bookId);
-
-        if (!result) {
-            return res.status(404).send('Book not found');
-        }
-
-        res.status(200).send('Book deleted successfully');
-    } catch (error) {
-        console.error('Error deleting book:', error);
-        res.status(500).send('Error deleting book');
-    }
+app.delete('/deleteBook/:id', (req, res) => {
+    let books = readData();
+    books = books.filter(book => book.id.toString() !== req.params.id);
+    writeData(books);
+    res.status(200).send('Book deleted successfully');
 });
 
 
@@ -107,7 +143,7 @@ app.get('/addReview/:bookId', (req, res) => {
 app.post("/reviews", (req, res) => {
     const reviews = readReviews();
     const newReview = {
-        id: Date.now(),
+        id: Date.now().toString(),
         bookId: req.body.bookId.toString(), // Convert book ID to string for consistency
         rate: req.body.rate,
         message: req.body.message

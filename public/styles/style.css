@@ -109,7 +109,7 @@ h1 {
   margin-right: 20px;
 }
 .btn-secondary { 
-  background: #2ecc71; 
+  background: #e59316; 
   color: white; 
   border: none;
   margin-top: 20px;
@@ -120,12 +120,12 @@ h1 {
   transition: background 0.3s ease;
 }
 .btn-secondary:hover{
-  background: #27ae60;
+  background: #db8223;
   text-decoration: none;
 }
 .btn-danger { 
   background: #e74c3c; 
-  width: 87%;
+  width: 50%;
   margin: auto;
   color: white; 
   border: none; 
@@ -266,4 +266,58 @@ input, textarea{
 textarea{
   resize: vertical;
   height: 100px;
+}
+
+#edit-book-title {
+  text-align: center;
+  color: #333;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Form */
+#edit-book-form {
+  display: flex;
+  flex-direction: column;
+}
+#edit-book-form a.btn.btn-secondary{
+  text-align: center;
+  font-weight: 800;
+}
+/* Form Groups */
+.form-group {
+  margin-bottom: 15px;
+}
+
+/* Labels */
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+/* Input Fields */
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Submit Button */
+#update-book-btn {
+  background: #34b529;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#update-book-btn:hover {
+  background: #0cab3c;
 }
