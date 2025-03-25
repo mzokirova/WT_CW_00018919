@@ -7,9 +7,10 @@ html
   body
     .container
       h1 Book List
+      input#search-bar(type="text" placeholder="Search for a book...")
       .book-list
         each book in books
-          .book-card
+          .book-card(data-title=book.title.toLowerCase())
             h2= book.title
             p Author: #{book.author}
             p Genre: #{book.genre}

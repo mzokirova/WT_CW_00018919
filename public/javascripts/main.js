@@ -1,3 +1,22 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const searchBar = document.getElementById("search-bar");
+    const bookCards = document.querySelectorAll(".book-card");
+  
+    searchBar.addEventListener("input", function () {
+      const searchTerm = searchBar.value.toLowerCase();
+  
+      bookCards.forEach(card => {
+        const title = card.getAttribute("data-title");
+        if (title.includes(searchTerm)) {
+          card.style.display = "block";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    });
+  });
+  
+  
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".inline-form").forEach(form => {
         form.addEventListener("submit", function (event) {
