@@ -33,7 +33,3 @@ TIPS:
 2. When you want to delete the review, just after adding new review, it may not delete because it hasn't saved yet. For that just refresh reviews page, and then delete. 
 3. It has email validation and couple of content validation by requiring to fill the inputs in a correct format. 
 
-
-
-I have mainly 5-6 pages. 
-In this project user can add new book to the
