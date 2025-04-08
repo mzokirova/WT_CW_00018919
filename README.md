@@ -26,7 +26,7 @@ LINKS:
 
 Here is the link for public repo in GitHub: https://github.com/mzokirova/WT_CW_00018919.git 
 
-Here is the link for hosted website: https://automatic-lumpy-serpent.glitch.me 
+Here is the link for hosted website: https://wt-cw-00018919-2.onrender.com
 
 TIPS:
 1. There maybe some waiting times when you are deleting and adding, because it will update the database, just wait 1-2 seconds
